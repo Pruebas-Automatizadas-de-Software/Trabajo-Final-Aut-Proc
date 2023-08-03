@@ -15,7 +15,7 @@ const url = 'http://localhost:2368/ghost/';
         const context = await browser.newContext();
         const page = await context.newPage();
 
-        //Abrir la URL a probar en la página y cargar el proyecto en una SPA
+        /*
         //test register
         await page.goto(url);
         await new Promise(r => setTimeout(r, 7000));
@@ -35,12 +35,28 @@ const url = 'http://localhost:2368/ghost/';
         console.log(`Clicked "register". URL is now ${page.url()}`)
         await page.screenshot({path:'./register/success-login.png'})
         console.log('Project loaded')
+        */
 
+        //sign in
+        await page.goto(url);
+        await new Promise(r => setTimeout(r, 7000));
+        await page.screenshot({path:'./sign-in/page.png'})
+        await page.locator('id=identification').click();
+        await page.locator('id=identification').fill('chinos@gmail.com');
+        await page.locator('id=password').click();
+        await page.locator('id=password').fill('0123456789');
+        await page.locator('id=ember5').click();
+        await page.screenshot({path:'./sign-in/form-completed.png'})
+        await new Promise(r => setTimeout(r, 7000));
+        console.log(`Clicked "register". URL is now ${page.url()}`)
+        await page.screenshot({path:'./sign-in/success-sign-in.png'})
 
-
-
-
-
+        //sign out
+        await page.locator('id=ember34').click();
+        await page.getByRole('link', { name: 'Sign out' }).click();
+        await new Promise(r => setTimeout(r, 7000));
+        await page.screenshot({path:'./sign-out/success-sign-out.png'})
+        console.log(`Sing-out"`)
 
         //Finalizar la prueba
         await browser.close();
