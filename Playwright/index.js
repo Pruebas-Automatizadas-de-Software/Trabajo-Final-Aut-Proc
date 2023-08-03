@@ -48,11 +48,33 @@ const url = 'http://localhost:2368/ghost/';
         await page.locator('id=ember5').click();
         await page.screenshot({path:'./sign-in/form-completed.png'})
         await new Promise(r => setTimeout(r, 7000));
-        console.log(`Clicked "register". URL is now ${page.url()}`)
+        console.log(`Clicked "Sign-In". URL is now ${page.url()}`)
         await page.screenshot({path:'./sign-in/success-sign-in.png'})
 
+        //hacer un post
+        await page.getByRole('link', { name: 'Posts', exact: true }).click();
+        await page.locator('.ember-view.gh-btn.gh-btn-primary[data-test-new-post-button]').click();
+        await page.getByPlaceholder('Post title').fill('Post de prueba');
+        await page.locator('.koenig-editor__editor').fill('Este es un post de prueba');
+        await page.screenshot({path:'./posts/form-post.png'})
+        await page.getByPlaceholder('Post title').click();
+        await page.getByRole('button', { name: 'Publish' }).click();
+        await page.getByRole('button', { name: 'Continue, final review →' }).click();
+        await page.screenshot({path:'./posts/ready-to-post.png'})
+        await page.evaluate(() => {
+            const button = document.querySelector('.gh-btn.gh-btn-large.gh-btn-pulse[data-test-button="confirm-publish"]');
+            if (button) {
+                button.style.animation = 'none';
+            }
+        });
+        await page.click('.gh-btn.gh-btn-large.gh-btn-pulse[data-test-button="confirm-publish"]');
+        await new Promise(r => setTimeout(r, 7000));
+        await page.screenshot({path:'./posts/success-post.png'})
+        await page.click('[data-test-button="close-publish-flow"]');
+        await page.click('[data-test-link="posts"]');
+        await page.screenshot({path:'./posts/return-home.png'})
         //sign out
-        await page.locator('id=ember34').click();
+        await page.click('[role="button"][aria-expanded="false"]');
         await page.getByRole('link', { name: 'Sign out' }).click();
         await new Promise(r => setTimeout(r, 7000));
         await page.screenshot({path:'./sign-out/success-sign-out.png'})
