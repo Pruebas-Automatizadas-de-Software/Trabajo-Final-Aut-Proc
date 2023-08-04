@@ -3,6 +3,7 @@ describe('Prueba de inicio de sesion y cerrar sesion', () =>{
         cy.visit('http://localhost:2368/ghost/#/signin')
     });
 
+
     it('Debe mostrarse un mensaje indicando que las credenciales no son correctas', ()=>{
         cy.get('input[id="identification"]').type('error@gmail.com');
         cy.get('input[id="password"]').type('1234567891');
@@ -22,7 +23,7 @@ describe('Prueba de inicio de sesion y cerrar sesion', () =>{
 
         //cy.url().should('include', 'http://localhost:2368/ghost/#/dashboard' );
     });
-    
+
     it('Debe realizar el cierre de la sesion', ()=>{
 
         cy.get('input[id="identification"]').type('chinos@gmail.com');
@@ -41,5 +42,3 @@ describe('Prueba de inicio de sesion y cerrar sesion', () =>{
 
 
 });
-
-
